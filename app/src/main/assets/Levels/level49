@@ -1,0 +1,14 @@
+columns: 10
+rows: 8
+pushes: 32
+position: 38
+skulls: 24, 26, 32, 36, 43, 44
+map:
+EEXXXXXEEE
+XXX***XXXX
+X********X
+X********X
+XXX**XXXXX
+EEX**DDXEE
+EEXDDDDXEE
+EEXXXXXXEE

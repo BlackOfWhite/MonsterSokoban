@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+  <string name="app_id">585701042990</string>
+  <string name="package_name">com.example.MonsterSokoban</string>
+  <string name="achievement_getting_started">CgkIrtaC9IUREAIQEQ</string>
+  <string name="achievement_can_touch_this">CgkIrtaC9IUREAIQDg</string>
+  <string name="achievement_icely_done">CgkIrtaC9IUREAIQAA</string>
+  <string name="achievement_grave_mistake">CgkIrtaC9IUREAIQBQ</string>
+  <string name="achievement_marathon">CgkIrtaC9IUREAIQCg</string>
+  <string name="achievement_back_in_time">CgkIrtaC9IUREAIQCw</string>
+  <string name="achievement_to_be_or_not_to_be">CgkIrtaC9IUREAIQEg</string>
+  <string name="achievement_mr._scrooge">CgkIrtaC9IUREAIQEw</string>
+  <string name="achievement_looper">CgkIrtaC9IUREAIQFA</string>
+  <string name="achievement_dont_stop_me_now">CgkIrtaC9IUREAIQFQ</string>
+  <string name="achievement_collector">CgkIrtaC9IUREAIQFg</string>
+  <string name="achievement_walking_dead">CgkIrtaC9IUREAIQFw</string>
+  <string name="achievement_chill_out">CgkIrtaC9IUREAIQGA</string>
+  <string name="achievement_intoxicated">CgkIrtaC9IUREAIQGQ</string>
+  <string name="achievement_the_maze">CgkIrtaC9IUREAIQHA</string>
+  <string name="achievement_beginner">CgkIrtaC9IUREAIQHQ</string>
+  <string name="achievement_advanced">CgkIrtaC9IUREAIQHg</string>
+  <string name="achievement_expert">CgkIrtaC9IUREAIQHw</string>
+</resources>

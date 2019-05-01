@@ -1,0 +1,16 @@
+columns: 11
+rows: 9
+pushes: 5
+position: 49
+skulls: 15, 35, 57, 71
+teleports: 14-84, 16-40, 18-80, 26-50, 28-36, 36-14, 38-70, 40-26, 48-38, 50-58, 58-36, 60-62, 62-70, 70-72, 72-62, 80-40, 82-16, 84-28
+map:
+EEXXXXXXXEE
+EEXT*T*TXEE
+XXX*T*T*XXE
+XD*T*T*TDXE
+XXX*T*T*XXX
+XD*T*T*T*DX
+XXX*T*T*XXX
+EEXT*T*TXEE
+EEXXXXXXXEE

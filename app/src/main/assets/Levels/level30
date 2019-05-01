@@ -1,0 +1,15 @@
+columns: 10
+rows: 8
+pushes: 9
+position: 33
+skulls: 28, 32, 47
+teleports: 43-55, 55-43
+map:
+EEEXXXXXXX
+EEXX*****X
+XXX**XXX*X
+X****X***X
+X**TXXS*SX
+XXXXXTSSDX
+XDDSSSSSXX
+XXXXXXXXXE

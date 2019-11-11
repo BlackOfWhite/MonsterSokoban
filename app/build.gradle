@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.game.MonsterSokoban"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 9
+        versionName "1.2"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        key {
+            keyAlias 'monstersokobankeystorealias'
+            keyPassword '2009Goplana2010//1993Goplana'
+            storeFile file('C:\\Users\\pniewinski\\Desktop\\MonsterSokobanKeystore')
+            storePassword '2009Goplana2010//1993Goplana'
+        }
+    }
+    productFlavors {
+    }
+    compileOptions {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    testImplementation 'junit:junit:4.12'
+    implementation group: 'androidx.core', name: 'core', version: '1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+//    implementation 'com.google.android.gms:play-services-ads:18.3.0'
+    implementation 'com.google.android.gms:play-services-games:18.0.1'
+}

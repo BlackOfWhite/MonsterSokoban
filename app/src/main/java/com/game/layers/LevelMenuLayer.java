@@ -469,11 +469,11 @@ public class LevelMenuLayer extends CCLayer {
    * Start new level. Replace current scene to be able to open new
    * LevelMenuScene and refresh content.
    *
-   * @param levelToStart New level to start.
+   * @param level New level to start.
    */
-  private void startNewLevel(final int levelToStart) {
+  private void startNewLevel(final int level) {
     InGameHelper.turnAllSensorsOff(this);
-    CCScene scene = GameLayer.scene(levelToStart);
+    CCScene scene = GameLayer.scene(level);
     scene.setTag(GlobalPreferences.GAME_LAYER_TAG);
     CCScene fade = CCFadeTransition.transition(1f, scene);
     CCDirector.sharedDirector().replaceScene(fade);

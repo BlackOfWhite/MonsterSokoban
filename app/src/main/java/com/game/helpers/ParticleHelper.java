@@ -35,7 +35,6 @@ public final class ParticleHelper {
     gasEmitter.setTexture(sharedTexture.addImage(SpritePreferences.FIRE_PARTICLE));
     gasEmitter.resetSystem();
     gasEmitter.setAutoRemoveOnFinish(true);
-//		gasEmitter.setEmitterMode(CCParticleSystem.kCCParticleModeRadius);
     gasEmitter.setStartColor(new ccColor4F(0.2f, 1f, 0.2f, 1f));
     gasEmitter.setEndColor(new ccColor4F(0.2f, 0.8f, 0.2f, 1f));
     gasEmitter.setStartColorVar(new ccColor4F(0.1f, 0.1f, 0.1f, 0.5f));

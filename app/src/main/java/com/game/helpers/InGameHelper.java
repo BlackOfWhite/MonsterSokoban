@@ -233,7 +233,6 @@ public final class InGameHelper {
         return true;
       }
     }
-    Logger.log("Cannot start new action for sprite, there is already running action");
     return false;
   }
 
@@ -333,12 +332,9 @@ public final class InGameHelper {
     layer.setIsTouchEnabled(true);
     layer.setIsKeyEnabled(true);
     Handler handler = new Handler(Looper.getMainLooper());
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        MainActivity mainActivity = (MainActivity) CCDirector.sharedDirector().getActivity();
-        mainActivity.setTouch(true);
-      }
+    handler.postDelayed(() -> {
+      MainActivity mainActivity = (MainActivity) CCDirector.sharedDirector().getActivity();
+      mainActivity.setTouch(true);
     }, 2000);
   }
 

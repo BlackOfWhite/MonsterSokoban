@@ -117,4 +117,9 @@ public final class SpritePreferences {
 	 */
 	public static final String STAR_PARTICLE = "Particles/stars.png";
 	public static final String FIRE_PARTICLE = "Particles/fire.png";
+
+	/**
+	 * Hints.
+	 */
+	public static final String HINT_INDEX_FINGER = "Hints/pointingHandHint.png";
 }

@@ -30,18 +30,6 @@ public class CreditsLayer extends CCLayer {
    */
   private CGPoint startLocation;
 
-  /**
-   * Box2d.
-   */
-  // private World world;
-  // private Body groundBody;
-  // private Fixture bottomFixture;
-  // private Fixture squareFixture;
-  //
-  // /**
-  // * Number of bodies. Should be equal to number of heroes.
-  // */
-  // private static final int BODY_COUNT = 6;
   public CreditsLayer() {
     // Load sprite for background
     CGSize screenSize = DevicePreferences.screenSize;
@@ -96,7 +84,6 @@ public class CreditsLayer extends CCLayer {
     addChild(cancel, Z2, CANCEL_BUTTON_TAG);
 
     InGameHelper.turnAllSensorsOn(this);
-    // setUpBox2d();
   }
 
   /**

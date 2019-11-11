@@ -27,6 +27,8 @@ import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.instant.CCCallFuncN;
 import org.cocos2d.actions.instant.CCCallFuncND;
 import org.cocos2d.actions.interval.CCDelayTime;
+import org.cocos2d.actions.interval.CCFadeIn;
+import org.cocos2d.actions.interval.CCFadeOut;
 import org.cocos2d.actions.interval.CCMoveTo;
 import org.cocos2d.actions.interval.CCScaleTo;
 import org.cocos2d.actions.interval.CCSequence;
@@ -105,19 +107,19 @@ public class GameLayer extends CCLayer {
    */
   private static final int REVERT_BUTTON_TAG = InGameHelper.generateUniqueTag();
   /**
-   * Tag of winning  color overlay.
+   * Tag of winning color overlay.
    */
   private static final int WIN_OVERLAY_TAG = InGameHelper.generateUniqueTag();
   /**
-   * Tag of winning  'next' button. Used with touch listener.
+   * Tag of winning 'next' button. Used with touch listener.
    */
   private static final int WIN_NEXT_BUTTON_TAG = InGameHelper.generateUniqueTag();
   /**
-   * Tag of winning  'retry' button. Used with touch listener.
+   * Tag of winning 'retry' button. Used with touch listener.
    */
   private static final int WIN_RETRY_BUTTON_TAG = InGameHelper.generateUniqueTag();
   /**
-   * Tag of winning  'back' button. Used with touch listener.
+   * Tag of winning 'back' button. Used with touch listener.
    */
   private static final int WIN_BACK_BUTTON_TAG = InGameHelper.generateUniqueTag();
   /**
@@ -133,14 +135,14 @@ public class GameLayer extends CCLayer {
    * Font color.
    */
   private static final ccColor3B fontColor = ccColor3B.ccc3(255, 255, 255);
+  private static boolean isHintLeftActive = false;
+  private static boolean isHintUpActive = true;
+  private static boolean isHintRightActive = false;
+  private static boolean isHintDownActive = false;
   /**
    * Reference to the android context variable.
    */
   private static Context appContext;
-  /**
-   * Number of the current level.
-   */
-  private static int levelNumber;
   /**
    * Tag of currently moved skull sprite.
    */
@@ -169,6 +171,18 @@ public class GameLayer extends CCLayer {
    * Single move time multiplier. Should be greater than 1.
    */
   private final float moveBoost = 1.75f;
+  /**
+   * Device's screen size.
+   */
+  private final CGSize screenSize;
+  /**
+   * Game screen scale. Ensure that looks nice on different screen sizes.
+   */
+  private final float generalScaleFactor;
+  /**
+   * Number of the current level.
+   */
+  private int levelNumber;
   /**
    * Click.
    */
@@ -202,14 +216,6 @@ public class GameLayer extends CCLayer {
    * LevelSummaryScreen.
    */
   private boolean levelCompleted = false;
-  /**
-   * Device's screen size.
-   */
-  private final CGSize screenSize;
-  /**
-   * Game screen scale. Ensure that looks nice on different screen sizes.
-   */
-  private final float generalScaleFactor;
   /**
    * Scale for tiles.
    */
@@ -281,6 +287,7 @@ public class GameLayer extends CCLayer {
    * Chill out step counter.
    */
   private int chillOutSteps = 0;
+  private CCSprite hintSprite;
 
   /**
    * Constructor.
@@ -288,7 +295,7 @@ public class GameLayer extends CCLayer {
    * @param level Current level.
    */
   public GameLayer(final int level) {
-    levelNumber = level;
+    this.levelNumber = level;
     this.pushes = 0;
     this.revertsNumber = 0;
     this.anyMoveBackedUp = false;
@@ -307,13 +314,20 @@ public class GameLayer extends CCLayer {
     checkAllSkullsCollected();
     addChild(ParticleHelper.fireflies(screenSize.width, screenSize.height), Z5);
     preloadSoundEffects();
+
+    if (levelNumber == 1) {
+      hintSprite = CCSprite.sprite(SpritePreferences.HINT_INDEX_FINGER);
+      initializeHintAnimationScheduler(null);
+      addChild(hintSprite, Z0);
+    }
+
     InGameHelper.turnAllSensorsOn(this);
   }
 
   /**
    * Start GameLayer scene.
    *
-   * @param levelNumber Create  layer, pass level number to constructor.
+   * @param levelNumber Create layer, pass level number to constructor.
    * @return Scene.
    */
   public static CCScene scene(final int levelNumber) {
@@ -324,7 +338,7 @@ public class GameLayer extends CCLayer {
   }
 
   /**
-   * Add sprites. Execute after calculating  parameters and loading tiles.
+   * Add sprites. Execute after calculating parameters and loading tiles.
    */
   private void addSpritesAfter() {
     // Item panel.
@@ -575,6 +589,7 @@ public class GameLayer extends CCLayer {
         revertMove();
       }
     } else if (!levelCompleted) {
+      // Game logic
       /*
        * Issue #65. Do not animate if one the sprites is still in move. If
        * slide was done very quickly, than skull or hero may be null!
@@ -604,6 +619,43 @@ public class GameLayer extends CCLayer {
     InGameHelper.turnAllSensorsOff(this);
     InGameHelper.popAndReplaceSceneWithTag();
     return true;
+  }
+
+  public void initializeHintAnimationScheduler(Object sender) {
+    // Display hints during tutorial level
+    isHintUpActive = (heroTable[19] || heroTable[25] || heroTable[34]);
+    isHintRightActive = (heroTable[11] || heroTable[12] || heroTable[21]);
+    isHintDownActive = (heroTable[13] || heroTable[22] || heroTable[30]);
+    isHintLeftActive = (heroTable[26] || heroTable[35] || heroTable[36] || heroTable[37] || heroTable[38]);
+    CGPoint startPosition;
+    CCMoveTo moveTo;
+    // Up
+    if (isHintUpActive) {
+      startPosition = CGPoint.make(screenSize.width / 2.0f, screenSize.height / 4.0f);
+      moveTo = CCMoveTo.action(1.0f, CGPoint.make(screenSize.width / 2.0f, screenSize.height / 4.0f * 3));
+    } else if (isHintRightActive) {
+      // Right
+      startPosition = CGPoint.make(screenSize.width / 4.0f, screenSize.height / 2.0f);
+      moveTo = CCMoveTo.action(1.0f, CGPoint.make(screenSize.width / 4.0f * 3, screenSize.height / 2.0f));
+    } else if (isHintDownActive) {
+      // Down
+      startPosition = CGPoint.make(screenSize.width / 2.0f, screenSize.height / 4.0f * 3);
+      moveTo = CCMoveTo.action(1.0f, CGPoint.make(screenSize.width / 2.0f, screenSize.height / 4.0f));
+    } else {
+      // Left
+      startPosition = CGPoint.make(screenSize.width / 4.0f * 3, screenSize.height / 2.0f);
+      moveTo = CCMoveTo.action(1.0f, CGPoint.make(screenSize.width / 4.0f, screenSize.height / 2.0f));
+    }
+    startHintAnimation(startPosition, moveTo);
+  }
+
+  private void startHintAnimation(CGPoint startPosition, CCMoveTo moveTo) {
+    hintSprite.setPosition(startPosition);
+    hintSprite
+        .runAction(CCSequence.actions(
+            CCFadeIn.action(0.1f), moveTo, CCFadeOut.action(0.1f), CCDelayTime.action(1.2f),
+            CCCallFuncND.action(this, "initializeHintAnimationScheduler")));
+    hintSprite.setVisible(true);
   }
 
   /**
@@ -1455,15 +1507,13 @@ public class GameLayer extends CCLayer {
       }
     }
     pauseOverlay.runAction(seq);
-    updateAchievements(levelNumber);
+    updateAchievements();
   }
 
   /**
    * Update achievements accessible from GameLayer.
-   *
-   * @param level Current level.
    */
-  private void updateAchievements(final int level) {
+  private void updateAchievements() {
     Logger.log("Level: " + levelNumber);
     if (levelNumber == 5) {
       AchievementHelper.gettingStarted();
@@ -1471,14 +1521,14 @@ public class GameLayer extends CCLayer {
     if (levelNumber == 30) {
       AchievementHelper.beginner();
     }
-    if (levelNumber == 55) {
-      AchievementHelper.icelyDone();
-    }
     if (levelNumber == 42) {
       AchievementHelper.marathon();
     }
     if (levelNumber == 45) {
       AchievementHelper.advanced();
+    }
+    if (levelNumber == 55) {
+      AchievementHelper.icelyDone();
     }
     if (levelNumber == 60) {
       AchievementHelper.theMaze();

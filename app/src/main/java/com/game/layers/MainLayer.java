@@ -60,17 +60,15 @@ public class MainLayer extends CCLayer {
    * App context.
    */
   private final Context appContext = CCDirector.sharedDirector().getActivity();
-
-  /**
-   * Detect click.
-   */
-  private CGPoint startLocation;
-
   /**
    * List of buttons' paths. Sound sprite has to be the last one.
    */
   private final List<String> buttonsList = Arrays.asList(SpritePreferences.B_PLAY, SpritePreferences.B_ACHIEVEMENTS,
       SpritePreferences.B_SHOP, SpritePreferences.B_FX11);
+  /**
+   * Detect click.
+   */
+  private CGPoint startLocation;
 
   /**
    * Constructor.
@@ -257,15 +255,8 @@ public class MainLayer extends CCLayer {
    * @return An intent that will open the Facebook page/profile.
    */
   private Intent getOpenFacebookIntent(Context context) {
-    Logger.log("Connecting to facebook..");
-    try {
-      context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-      // Use profile or page.
-      return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/166795773678150"));
-    } catch (Exception e) {
-      Logger.log("Error while accessing facebook page. Trying to start an intent..");
-      return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/MonsterSokoban"));
-    }
+    Logger.log("Trying to open facebook page.");
+    return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/MonsterSokoban"));
   }
 
   /**

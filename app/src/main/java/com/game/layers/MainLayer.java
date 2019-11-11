@@ -15,6 +15,8 @@ import com.game.preferences.DevicePreferences;
 import com.game.preferences.GlobalPreferences;
 import com.game.preferences.SharedPreferencesKeys;
 import com.game.preferences.SpritePreferences;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.games.Games;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +58,7 @@ public class MainLayer extends CCLayer {
    * Z order.
    */
   private static final int Z0 = 0, Z1 = 1, Z2 = 2;
+  private static final int RC_ACHIEVEMENT_UI = 9003;
   /**
    * App context.
    */
@@ -219,7 +222,7 @@ public class MainLayer extends CCLayer {
       if (InGameHelper.spriteClicked(bsPlay, startLocation, endLocation)) {
         openDifficultyScene();
       } else if (InGameHelper.spriteClicked(bsAchievements, startLocation, endLocation)) {
-        openAchievementsScene();
+        displayAchievements();
       } else if (InGameHelper.spriteClicked(bsShop, startLocation, endLocation)) {
         openShopScene();
       } else if (InGameHelper.spriteClicked(bsCredits, startLocation, endLocation)) {
@@ -284,22 +287,19 @@ public class MainLayer extends CCLayer {
   /**
    * Start new scene.
    */
-  private void openAchievementsScene() {
-    try {
-      DevicePreferences.getGoogleApiClient().connect();
-      if (MainActivity.isSignedIn()) {
-        Logger.log("Logged in");
-        CCDirector.sharedDirector().getActivity().runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            Intent intent = Games.Achievements.getAchievementsIntent(DevicePreferences.getGoogleApiClient());
-            CCDirector.sharedDirector().getActivity().startActivityForResult(intent, 998);
-          }
-        });
+  private void displayAchievements() {
+    final MainActivity context = MainActivity.getINSTANCE();
+    Logger.log("displayAchievements");
+    CCDirector.sharedDirector().getActivity().runOnUiThread(() -> {
+      GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+      if (account != null) {
+        Games.getAchievementsClient(context, account).getAchievementsIntent()
+            .addOnSuccessListener(
+                intent -> context.startActivityForResult(intent, RC_ACHIEVEMENT_UI));
+      } else {
+        MainActivity.getINSTANCE().signInGoogleApi();
       }
-    } catch (Exception e) {
-      Logger.log("Failed to connect to Google API Client - " + e);
-    }
+    });
   }
 
   /**

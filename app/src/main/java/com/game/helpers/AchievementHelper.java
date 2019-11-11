@@ -1,8 +1,12 @@
 package com.game.helpers;
 
+import com.game.MainActivity;
 import com.game.logger.Logger;
 import com.game.preferences.DevicePreferences;
 import com.game.preferences.GlobalPreferences;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.games.AchievementsClient;
 import com.google.android.gms.games.Games;
 
 public final class AchievementHelper {
@@ -19,8 +23,8 @@ public final class AchievementHelper {
    */
   public static void intoxicated() {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQGQ");
-      Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQGQ", 1);
+      getClient().reveal("CgkIrtaC9IUREAIQGQ");
+      getClient().increment("CgkIrtaC9IUREAIQGQ", 1);
     }
   }
 
@@ -29,8 +33,16 @@ public final class AchievementHelper {
    */
   public static void gettingStarted() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQEQ");
+      getClient().unlock("CgkIrtaC9IUREAIQEQ");
     }
+  }
+
+  private static AchievementsClient getClient() {
+    GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(MainActivity.getINSTANCE());
+    if (account != null) {
+      return Games.getAchievementsClient(MainActivity.getINSTANCE(), account);
+    }
+    return null;
   }
 
   /**
@@ -38,8 +50,8 @@ public final class AchievementHelper {
    */
   public static void canTouchThis() {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQDg");
-      Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQDg", 1);
+      getClient().reveal("CgkIrtaC9IUREAIQDg");
+      getClient().increment("CgkIrtaC9IUREAIQDg", 1);
     }
   }
 
@@ -48,7 +60,7 @@ public final class AchievementHelper {
    */
   public static void icelyDone() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQAA");
+      getClient().unlock("CgkIrtaC9IUREAIQAA");
     }
   }
 
@@ -57,8 +69,8 @@ public final class AchievementHelper {
    */
   public static void graveMistake() {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQBQ");
-      Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQBQ", 1);
+      getClient().reveal("CgkIrtaC9IUREAIQBQ");
+      getClient().increment("CgkIrtaC9IUREAIQBQ", 1);
     }
   }
 
@@ -67,8 +79,8 @@ public final class AchievementHelper {
    */
   public static void backInTime() {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQCw");
-      Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQCw", 1);
+      getClient().reveal("CgkIrtaC9IUREAIQCw");
+      getClient().increment("CgkIrtaC9IUREAIQCw", 1);
     }
   }
 
@@ -77,7 +89,7 @@ public final class AchievementHelper {
    */
   public static void marathon() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQCg");
+      getClient().unlock("CgkIrtaC9IUREAIQCg");
     }
   }
 
@@ -86,7 +98,7 @@ public final class AchievementHelper {
    */
   public static void toBeOrNotToBe(int skullCount) {
     if (isConnected()) {
-      Games.Achievements.setSteps(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQEg", skullCount);
+      getClient().setSteps("CgkIrtaC9IUREAIQEg", skullCount);
     }
   }
 
@@ -95,8 +107,8 @@ public final class AchievementHelper {
    */
   public static void mrScrooge(int diamondsCount) {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQEw");
-      Games.Achievements.setSteps(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQEw", diamondsCount);
+      getClient().reveal("CgkIrtaC9IUREAIQEw");
+      getClient().setSteps("CgkIrtaC9IUREAIQEw", diamondsCount);
     }
   }
 
@@ -105,7 +117,7 @@ public final class AchievementHelper {
    */
   public static void looper() {
     if (isConnected()) {
-      Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFA", 1);
+      getClient().increment("CgkIrtaC9IUREAIQFA", 1);
     }
   }
 
@@ -120,8 +132,8 @@ public final class AchievementHelper {
       if (minutes > 0) {
         DevicePreferences.appStartTime = System.currentTimeMillis();
         if (isConnected()) {
-          Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFQ");
-          Games.Achievements.increment(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFQ", minutes);
+          getClient().reveal("CgkIrtaC9IUREAIQFQ");
+          getClient().increment("CgkIrtaC9IUREAIQFQ", minutes);
         }
         Logger.log("Play time: " + minutes);
       }
@@ -135,9 +147,9 @@ public final class AchievementHelper {
    */
   public static void collector(int numOfMonsters) {
     if (isConnected()) {
-      Games.Achievements.reveal(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFg");
+      getClient().reveal("CgkIrtaC9IUREAIQFg");
       if (numOfMonsters == GlobalPreferences.TOTAL_ITEMS_IN_SHOP) {
-        Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFg");
+        getClient().unlock("CgkIrtaC9IUREAIQFg");
       }
     }
   }
@@ -147,7 +159,7 @@ public final class AchievementHelper {
    */
   public static void walkingDead() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQFw");
+      getClient().unlock("CgkIrtaC9IUREAIQFw");
     }
   }
 
@@ -156,7 +168,7 @@ public final class AchievementHelper {
    */
   public static void chillOut() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQGA");
+      getClient().unlock("CgkIrtaC9IUREAIQGA");
     }
   }
 
@@ -164,7 +176,7 @@ public final class AchievementHelper {
    * Check if google play API is connected.
    */
   private static boolean isConnected() {
-    return DevicePreferences.getGoogleApiClient() != null && DevicePreferences.getGoogleApiClient().isConnected();
+    return getClient() != null;
   }
 
   /**
@@ -172,7 +184,7 @@ public final class AchievementHelper {
    */
   public static void theMaze() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQHA");
+      getClient().unlock("CgkIrtaC9IUREAIQHA");
     }
   }
 
@@ -181,7 +193,7 @@ public final class AchievementHelper {
    */
   public static void beginner() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQHQ");
+      getClient().unlock("CgkIrtaC9IUREAIQHQ");
     }
   }
 
@@ -190,7 +202,7 @@ public final class AchievementHelper {
    */
   public static void advanced() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQHg");
+      getClient().unlock("CgkIrtaC9IUREAIQHg");
     }
   }
 
@@ -199,7 +211,7 @@ public final class AchievementHelper {
    */
   public static void expert() {
     if (isConnected()) {
-      Games.Achievements.unlock(DevicePreferences.getGoogleApiClient(), "CgkIrtaC9IUREAIQHw");
+      getClient().unlock("CgkIrtaC9IUREAIQHw");
     }
   }
 }

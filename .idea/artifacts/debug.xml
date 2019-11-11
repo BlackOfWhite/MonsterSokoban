@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="debug">
+    <output-path>$PROJECT_DIR$/app/build/outputs/apk/debug</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyStoreUrl" value="file://" />
+      </options>
+    </properties>
+    <root id="archive" name="debug.apk" />
+  </artifact>
+</component>

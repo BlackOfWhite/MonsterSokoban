@@ -1,7 +1,5 @@
 package com.game.preferences;
 
-import com.game.logger.Logger;
-import com.google.android.gms.common.api.GoogleApiClient;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.types.CGSize;
 
@@ -35,19 +33,4 @@ public class DevicePreferences {
    * Sound mode. 0 - mute, 1 - only fx, 2 - only music, 3 - together.
    */
   public static int SOUND_MODE = 3;
-  /**
-   * Google API Client for managing and using Google Services.
-   */
-  private static GoogleApiClient googleApiClient = null;
-
-  public static GoogleApiClient getGoogleApiClient() {
-    return googleApiClient;
-  }
-
-  public static void setGoogleApiClient(final GoogleApiClient gac) {
-    if (googleApiClient != null) {
-      Logger.log("Google Api Client was already set, overriding!");
-    }
-    googleApiClient = gac;
-  }
 }

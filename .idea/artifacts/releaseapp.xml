@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="releaseapp">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/releaseapp</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyAlias" value="monstersokobankeystorealias" />
+        <option name="keyPassword" value="MjAwOUdvcGxhbmEyMDEwLy8xOTkzR29wbGFuYQ==" />
+        <option name="keyStorePassword" value="MjAwOUdvcGxhbmEyMDEwLy8xOTkzR29wbGFuYQ==" />
+        <option name="keyStoreUrl" value="file://$USER_HOME$/Desktop/MonsterSokobanKeystore" />
+        <option name="proGuardCfgFiles">
+          <list>
+            <option value="file://%MODULE_SDK_HOME%/tools/proguard/proguard-android.txt" />
+          </list>
+        </option>
+        <option name="signingMode" value="RELEASE_SIGNED" />
+      </options>
+    </properties>
+    <root id="archive" name="releaseapp.apk">
+      <element id="android-final-package" facet="app/android/Android" />
+    </root>
+  </artifact>
+</component>

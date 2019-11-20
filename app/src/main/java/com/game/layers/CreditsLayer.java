@@ -1,7 +1,10 @@
 package com.game.layers;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import com.game.MainActivity;
 import com.game.helpers.InGameHelper;
 import com.game.logger.Logger;
 import com.game.preferences.DevicePreferences;
@@ -21,6 +24,7 @@ public class CreditsLayer extends CCLayer {
    * First button tag. Reserve next 100 tags for other buttons.
    */
   private static final int CANCEL_BUTTON_TAG = InGameHelper.generateUniqueTag();
+  private static final int PRIVACY_POLICY_BUTTON_TAG = InGameHelper.generateUniqueTag();
   /**
    * Z order.
    */
@@ -76,13 +80,22 @@ public class CreditsLayer extends CCLayer {
     graphicsAuthorText.setPosition(screenSize.width / 3.0f * 2.0f, panel.getBoundingBox().size.height * 0.35f);
     addChild(graphicsAuthorText, Z2);
 
-    // Cancel button.
+    // Cancel button
     CCSprite cancel = CCSprite.sprite(SpritePreferences.B_CANCEL);
     cancel.setScale(screenSize.width * 0.13f / cancel.getContentSize().width);
     cancel.setPosition(screenSize.width / 2.0f + panel.getBoundingBox().size.width / 2.0f,
         screenSize.height / 2.0f + panel.getBoundingBox().size.height * 0.37f);
     addChild(cancel, Z2, CANCEL_BUTTON_TAG);
 
+    // Privacy policy button
+    CCSprite privacyPolicyBtn = CCSprite.sprite(SpritePreferences.B_WIDE);
+    float textHeight = getBoundingBox().size.height * 0.17f;
+    privacyPolicyBtn.setScale(textHeight / privacyPolicyBtn.getContentSize().height);
+    privacyPolicyBtn.setPosition(screenSize.width / 2, panel.getPosition().y - panel.getContentSize().height / 2);
+    InGameHelper.addTextToSprite(privacyPolicyBtn, "Privacy Policy");
+    addChild(privacyPolicyBtn, Z2, PRIVACY_POLICY_BUTTON_TAG);
+
+    // Done
     InGameHelper.turnAllSensorsOn(this);
   }
 
@@ -115,14 +128,21 @@ public class CreditsLayer extends CCLayer {
   public final boolean ccTouchesEnded(final MotionEvent event) {
     CGPoint endLocation = CCDirector.sharedDirector().convertToGL(CGPoint.ccp(event.getX(), event.getY()));
     CCSprite cancelSprite = (CCSprite) getChildByTag(CANCEL_BUTTON_TAG);
+    CCSprite privacyPolicySprite = (CCSprite) getChildByTag(PRIVACY_POLICY_BUTTON_TAG);
+
     if (InGameHelper.detectClick(startLocation, endLocation)) {
       if (InGameHelper.spriteClicked(cancelSprite, startLocation, endLocation)) {
         InGameHelper.turnAllSensorsOff(this);
         InGameHelper.popAndReplaceSceneWithTag();
+      } else if (InGameHelper.spriteClicked(privacyPolicySprite, startLocation, endLocation)) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+            Uri.parse("https://docs.google.com/document/d/1tBNq_ceEqfiMvkeD-tgtR4Sg6VkmlZgDIxNsXQwirm8/edit?usp=sharing"));
+        MainActivity.getINSTANCE().startActivity(browserIntent);
       }
     }
     return true;
   }
+
 
   /**
    * Override and handle the event called in MainActivity. It ensures that
